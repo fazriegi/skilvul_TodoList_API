@@ -59,4 +59,36 @@ module.exports = {
       res.status(500).json({ message: error });
     }
   },
+
+  async updateTodoController(req, res) {
+    const { id } = req.params;
+    const data = req.body;
+    const userId = req.userId;
+
+    try {
+      const todo = await Todo.findById(id);
+
+      if (todo.owner._id.toString() !== userId)
+        return res.status(403).json({
+          message: "failed update todo",
+        });
+
+      if (data.description) {
+        todo.description = data.description;
+      }
+
+      if (data.isDone != undefined) {
+        todo.isDone = data.isDone;
+      }
+
+      await todo.save();
+
+      res.json({
+        message: "success update todo",
+        data,
+      });
+    } catch (error) {
+      res.status(500).json({ message: error });
+    }
+  },
 };
