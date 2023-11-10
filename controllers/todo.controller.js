@@ -133,4 +133,18 @@ module.exports = {
       res.status(500).json({ message: error });
     }
   },
+
+  async deleteAllTodoByUserController(req, res) {
+    const userId = req.userId;
+
+    try {
+      await Todo.deleteMany({ owner: userId });
+
+      res.json({
+        message: "success delete all todo",
+      });
+    } catch (error) {
+      res.status(500).json({ message: error });
+    }
+  },
 };

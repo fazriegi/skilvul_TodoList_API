@@ -5,6 +5,7 @@ const {
   getTodoByIdController,
   updateTodoController,
   deleteTodoByIdController,
+  deleteAllTodoByUserController,
 } = require("../controllers/todo.controller");
 const { verifyToken } = require("../middleware/jwt");
 
@@ -15,5 +16,6 @@ route.get("/", verifyToken, getAllTodoByUserController);
 route.get("/:id", verifyToken, getTodoByIdController);
 route.put("/:id", verifyToken, updateTodoController);
 route.delete("/:id", verifyToken, deleteTodoByIdController);
+route.delete("/", verifyToken, deleteAllTodoByUserController);
 
 module.exports = route;
