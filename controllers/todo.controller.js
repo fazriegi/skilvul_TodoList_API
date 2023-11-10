@@ -36,4 +36,27 @@ module.exports = {
       res.status(500).json({ message: error });
     }
   },
+
+  async getTodoByIdController(req, res) {
+    const { id } = req.params;
+    const userId = req.userId;
+
+    try {
+      const todo = await Todo.findById(id)
+        .populate("owner", "name")
+        .select("-__v");
+
+      if (todo.owner._id.toString() !== userId) {
+        res.status(403).json({ message: "failed get data" });
+        return;
+      }
+
+      res.json({
+        message: "success get todo",
+        data: todo,
+      });
+    } catch (error) {
+      res.status(500).json({ message: error });
+    }
+  },
 };
