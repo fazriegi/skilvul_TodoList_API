@@ -46,6 +46,11 @@ module.exports = {
         .populate("owner", "name")
         .select("-__v");
 
+      if (!todo) {
+        res.status(404).json({ message: "data not found" });
+        return;
+      }
+
       if (todo.owner._id.toString() !== userId) {
         res.status(403).json({ message: "failed get data" });
         return;
@@ -73,6 +78,11 @@ module.exports = {
 
     try {
       const todo = await Todo.findById(id);
+
+      if (!todo) {
+        res.status(404).json({ message: "data not found" });
+        return;
+      }
 
       if (todo.owner._id.toString() !== userId)
         return res.status(403).json({
@@ -106,7 +116,6 @@ module.exports = {
 
   async deleteTodoByIdController(req, res) {
     const { id } = req.params;
-    const userId = req.userId;
 
     try {
       await Todo.findByIdAndDelete({ _id: id });
