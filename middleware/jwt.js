@@ -24,6 +24,8 @@ function verifyToken(req, res, next) {
 
   const token = authHeader.split(" ")[1];
 
+  if (!token) res.status(400).json({ message: "jwt must be provided" });
+
   try {
     const { userId } = jwt.verify(token, JWT_KEY);
     req.userId = userId;
