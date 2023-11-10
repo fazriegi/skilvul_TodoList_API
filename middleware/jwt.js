@@ -14,4 +14,23 @@ function createJWTToken(userId) {
   return token;
 }
 
-module.exports = { createJWTToken };
+function verifyToken(req, res, next) {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    res.status(400).json({ message: "authorization header not found" });
+    return;
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  try {
+    const { userId } = jwt.verify(token, JWT_KEY);
+    req.userId = userId;
+    next();
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+}
+
+module.exports = { createJWTToken, verifyToken };
