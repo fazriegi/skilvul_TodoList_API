@@ -56,6 +56,12 @@ module.exports = {
         data: todo,
       });
     } catch (error) {
+      if (error.name === "CastError") {
+        return res.status(404).json({
+          message: "data not found",
+        });
+      }
+
       res.status(500).json({ message: error });
     }
   },
@@ -88,6 +94,12 @@ module.exports = {
         data,
       });
     } catch (error) {
+      if (error.name === "CastError") {
+        return res.status(404).json({
+          message: "data not found",
+        });
+      }
+
       res.status(500).json({ message: error });
     }
   },
