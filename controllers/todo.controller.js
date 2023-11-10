@@ -103,4 +103,25 @@ module.exports = {
       res.status(500).json({ message: error });
     }
   },
+
+  async deleteTodoByIdController(req, res) {
+    const { id } = req.params;
+    const userId = req.userId;
+
+    try {
+      await Todo.findByIdAndDelete({ _id: id });
+
+      res.json({
+        message: "success delete todo",
+      });
+    } catch (error) {
+      if (error.name === "CastError") {
+        return res.status(404).json({
+          message: "data not found",
+        });
+      }
+
+      res.status(500).json({ message: error });
+    }
+  },
 };
