@@ -13,7 +13,7 @@ const validate = (validations) => {
     }
 
     res.status(400).json({
-      message: "failed create user",
+      message: "failed",
       error: errors.array(),
     });
   };
