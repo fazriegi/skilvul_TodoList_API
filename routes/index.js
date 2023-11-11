@@ -3,9 +3,8 @@ const route = express.Router();
 
 const authRoute = require("./auth.route");
 const todoRoute = require("./todo.route");
-const User = require("../models/user.model");
 
 route.use("/auth", authRoute);
-route.use("/todo", todoRoute);
+route.use("/todos", todoRoute);
 
 module.exports = route;
